@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One million checkboxes</title>
+</head>
+<body>
+
+
+    <div class="ctn" id="ctn">
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+const ctn = document.getElementById('ctn');
+        const arr = Array(50000).fill(false);
+    arr.forEach((element, index) =>{
+     const checkbox = document.createElement('input');
+     checkbox.type = 'checkbox'
+     checkbox.id = `index-${index}`
+     checkbox.checked = false;
+     checkbox.addEventListener('change', () => {
+        socket.emit('client-update', {index: index, value: checkbox.checked})
+        fetchstate();
+        // console.log(`My index is : ${index}, value is: ${checkbox.checked}`);
+     })
+    ctn.appendChild(checkbox);
+    })
+
+
+    socket.on('server-update', (data) => {
+        const checkbox = document.getElementById(`index-${data.index}`);
+        if (checkbox) {
+        checkbox.checked = data.value;
+        }
+    })
+    const fetchstate = async () => {
+             const data = await fetch('/state');
+             const __json = await data.json();
+             console.log(__json.state_normal)
+             __json.state_normal.forEach((element, index) => {
+                const checkbox = document.getElementById(`index-${index}`);
+                checkbox.checked = element;
+             })
+        }
+    fetchstate()
+    </script>
+</body>
+</html>
