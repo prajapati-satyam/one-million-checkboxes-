@@ -4,21 +4,22 @@ const port = process.env.PORT || 3000;
 const {Server} = require('socket.io');
 const http = require('http');
 const Redis = require('ioredis');
+const { hostname } = require('os');
 const httpSever = http.createServer(app);
 const io = new Server(httpSever);
 
 app.use(express.static('public'))
 
 const redis = new Redis({
-  hostname: "valkey",
+  host: "valkey",
   port: 6379
 });
 const pub = new Redis({
-  hostname: "valkey",
+  host: "valkey",
   port: 6379
 });
 const sub = new Redis({
-  hostname: "valkey",
+  host: "valkey",
   port: 6379
 });
 
