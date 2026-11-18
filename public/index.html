@@ -15,7 +15,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-const ctn = document.getElementById('ctn');
+        const ctn = document.getElementById('ctn');
         const arr = Array(50000).fill(false);
     arr.forEach((element, index) =>{
      const checkbox = document.createElement('input');
@@ -24,7 +24,7 @@ const ctn = document.getElementById('ctn');
      checkbox.checked = false;
      checkbox.addEventListener('change', () => {
         socket.emit('client-update', {index: index, value: checkbox.checked})
-        fetchstate();
+        // fetchstate();
         // console.log(`My index is : ${index}, value is: ${checkbox.checked}`);
      })
     ctn.appendChild(checkbox);
